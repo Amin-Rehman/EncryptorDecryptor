@@ -1,0 +1,13 @@
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\bin\x86\Debug\Encryptor.exe.config
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\bin\x86\Debug\Encryptor.exe
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\bin\x86\Debug\Encryptor.pdb
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\MainWindow.g.cs
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\App.g.cs
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor_MarkupCompile.cache
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor_MarkupCompile.lref
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\MainWindow.baml
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor.g.resources
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor.Properties.Resources.resources
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor.csproj.GenerateResource.Cache
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor.exe
+C:\WORK\NewExperiments\Encryptor\Encryptor\Encryptor\obj\x86\Debug\Encryptor.pdb
