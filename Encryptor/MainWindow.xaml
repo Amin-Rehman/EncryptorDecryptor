@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Encryptor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="579.2" Width="942.6">
     <Grid>
-        
+        <Grid HorizontalAlignment="Left" Height="301" Margin="10,10,0,0" VerticalAlignment="Top" Width="498">
+            <ListView x:Name="filesInDirListView" 
+                      HorizontalAlignment="Left" 
+                      Height="252" Margin="10,10,0,0" 
+                      VerticalAlignment="Top" 
+                      Width="396"
+                      >
+                <ListView.View>
+                    <GridView x:Name="grdNames">
+                        <GridViewColumn Header="Files"  DisplayMemberBinding="{Binding Name}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
     </Grid>
 </Window>
