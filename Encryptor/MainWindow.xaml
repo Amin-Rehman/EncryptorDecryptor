@@ -8,22 +8,57 @@
 
         Title="VBEncryptor" Height="580" Width="940" ResizeMode ="CanMinimize">
     <Grid>
-        <Grid HorizontalAlignment="Left" Height="301" Margin="10,10,0,0" VerticalAlignment="Top" Width="498">
-            <ListView x:Name="filesInDirListView" 
+
+        <ListView x:Name="filesInDirListView" 
                               HorizontalAlignment="Left" 
                               Height="252" Margin="10,10,0,0" 
                               VerticalAlignment="Top" 
                               Width="478"
                               >
-                <ListView.View>
-                    <GridView x:Name="grdNames">
-                        <GridViewColumn Header="Files"  DisplayMemberBinding="{Binding fileName}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            <Button x:Name="openCaseFolderButton" Content="Open Case Folder" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="110" Click="openCaseFolderButton_Click"/>
-        </Grid>
-        <Canvas HorizontalAlignment="Left" Height="278" Margin="527,10,0,0" VerticalAlignment="Top" Width="386" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            <ListView.View>
+                <GridView x:Name="grdNames">
+                    <GridViewColumn Header="Files"
+                                    Width="478"
+                                    DisplayMemberBinding="{Binding fileName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="openCaseFolderButton"
+                Content="Open Case Folder"
+                HorizontalAlignment="Left"
+                Margin="10,271,0,0" 
+                VerticalAlignment="Top"
+                Width="110"
+                Click="openCaseFolderButton_Click"/>
+
+        <Canvas HorizontalAlignment="Left" 
+                Height="252" 
+                Margin="527,10,0,0"
+                VerticalAlignment="Top"
+                Width="386"
+                Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+
+        <ListView x:Name="filesToBeBurnedListView" 
+                  HorizontalAlignment="Left" 
+                  Height="208" 
+                  Margin="10,311,0,0"
+                  VerticalAlignment="Top" 
+                  Width="478">
+            <ListView.View>
+                <GridView x:Name="toburngrdNames">
+                    <GridViewColumn Header="Files"
+                                    Width="478"
+                                    DisplayMemberBinding="{Binding fileName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="addFilesButton" 
+                Content="Add Files"
+                HorizontalAlignment="Left"
+                Margin="143,271,0,0"
+                VerticalAlignment="Top"
+                Width="109" 
+                Click="addFilesButton_Click"/>
 
     </Grid>
 </Window>

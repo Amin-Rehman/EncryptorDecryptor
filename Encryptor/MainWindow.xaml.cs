@@ -28,6 +28,7 @@ namespace Encryptor
         {
             InitializeComponent();
 
+            filesInDirListView.SelectionMode = System.Windows.Controls.SelectionMode.Multiple;
         }
 
         private void openCaseFolderButton_Click(object sender, RoutedEventArgs e)
@@ -44,5 +45,30 @@ namespace Encryptor
                     VBDirectoryEnumerator.GetFilesFromDirectory(folderBrowserDialog.SelectedPath);
             }
         }
+
+        private void addFilesButton_Click(object sender, RoutedEventArgs e)
+        {
+            filesToBeBurnedListView.Items.Clear();
+
+            // Iterate through all the items in the list view and add to the new list view
+            foreach (var item in filesInDirListView.SelectedItems)
+            {
+                try
+                {
+                    if (filesToBeBurnedListView.Items.Add(item) == -1)
+                    {
+                        System.Windows.MessageBox.Show("Error adding items to the burn list");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show("Error adding items to the burn list : "+ ex.Message);
+                    return;
+                }
+            }
+        }
+
+
     }
 }
