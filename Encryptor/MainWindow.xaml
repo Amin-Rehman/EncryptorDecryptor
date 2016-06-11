@@ -13,7 +13,7 @@
                               HorizontalAlignment="Left" 
                               Height="252" Margin="10,10,0,0" 
                               VerticalAlignment="Top" 
-                              Width="396"
+                              Width="478"
                               >
                 <ListView.View>
                     <GridView x:Name="grdNames">
@@ -22,6 +22,7 @@
                 </ListView.View>
             </ListView>
         </Grid>
+        <Canvas HorizontalAlignment="Left" Height="278" Margin="527,10,0,0" VerticalAlignment="Top" Width="386" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
 
     </Grid>
 </Window>
