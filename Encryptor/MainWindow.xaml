@@ -16,7 +16,7 @@
                       >
                 <ListView.View>
                     <GridView x:Name="grdNames">
-                        <GridViewColumn Header="Files"  DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Files"  DisplayMemberBinding="{Binding fileName}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
