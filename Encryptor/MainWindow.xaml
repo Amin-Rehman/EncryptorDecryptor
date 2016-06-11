@@ -21,6 +21,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <Button x:Name="openCaseFolderButton" Content="Open Case Folder" HorizontalAlignment="Left" Margin="10,271,0,0" VerticalAlignment="Top" Width="110" Click="openCaseFolderButton_Click"/>
         </Grid>
         <Canvas HorizontalAlignment="Left" Height="278" Margin="527,10,0,0" VerticalAlignment="Top" Width="386" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
 

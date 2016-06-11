@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace Encryptor
 {
@@ -27,9 +28,21 @@ namespace Encryptor
         {
             InitializeComponent();
 
-            // Hardcoded folder path
-            string hardcodedDirectory = "C:\\WORK\\NewExperiments\\Encryptor\\TestFolder";
-            filesInDirListView.ItemsSource = VBDirectoryEnumerator.GetFilesFromDirectory(hardcodedDirectory);
+        }
+
+        private void openCaseFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog;
+            folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.ShowNewFolderButton = false;
+            folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            DialogResult result = folderBrowserDialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                filesInDirListView.ItemsSource = 
+                    VBDirectoryEnumerator.GetFilesFromDirectory(folderBrowserDialog.SelectedPath);
+            }
         }
     }
 }
