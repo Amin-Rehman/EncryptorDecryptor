@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using SharedProject;
 
 namespace Encryptor
 {
@@ -27,7 +28,6 @@ namespace Encryptor
         public MainWindow()
         {
             InitializeComponent();
-
             filesInDirListView.SelectionMode = System.Windows.Controls.SelectionMode.Multiple;
         }
 
