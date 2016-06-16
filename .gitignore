@@ -36,3 +36,17 @@
 /Decryptor/obj/Release/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
 /Decryptor/bin/Debug/Decryptor.vshost.exe.manifest
 /Decryptor/obj/Debug/Decryptor.csprojResolveAssemblyReference.cache
+/packages/Newtonsoft.Json.8.0.3/*.nupkg
+/packages/Newtonsoft.Json.8.0.3/lib/net20/*.dll
+/packages/Newtonsoft.Json.8.0.3/lib/net20/*.xml
+/packages/Newtonsoft.Json.8.0.3/lib/net35/*.dll
+/packages/Newtonsoft.Json.8.0.3/lib/net35/*.xml
+/packages/Newtonsoft.Json.8.0.3/lib/net40/*.dll
+/packages/Newtonsoft.Json.8.0.3/lib/net40/*.xml
+/packages/Newtonsoft.Json.8.0.3/lib/net45/*.dll
+/packages/Newtonsoft.Json.8.0.3/lib/net45/*.xml
+/packages/Newtonsoft.Json.8.0.3/lib/portable-net40+sl5+wp80+win8+wpa81/*.dll
+/packages/Newtonsoft.Json.8.0.3/lib/portable-net40+sl5+wp80+win8+wpa81/*.xml
+/packages/Newtonsoft.Json.8.0.3/lib/portable-net45+wp80+win8+wpa81+dnxcore50/*.dll
+/packages/Newtonsoft.Json.8.0.3/lib/portable-net45+wp80+win8+wpa81+dnxcore50/*.xml
+/packages/Newtonsoft.Json.8.0.3/tools/*.ps1
