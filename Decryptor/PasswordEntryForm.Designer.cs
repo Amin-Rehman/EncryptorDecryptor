@@ -88,7 +88,7 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PasswordEntryForm";
+            this.Text = "Please enter password";
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();

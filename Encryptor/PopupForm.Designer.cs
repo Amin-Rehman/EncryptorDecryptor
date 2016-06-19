@@ -56,7 +56,7 @@
             // OKButton
             // 
             this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKButton.Location = new System.Drawing.Point(15, 89);
+            this.OKButton.Location = new System.Drawing.Point(298, 89);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 2;
@@ -67,7 +67,7 @@
             // CrossButton
             // 
             this.CrossButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CrossButton.Location = new System.Drawing.Point(111, 89);
+            this.CrossButton.Location = new System.Drawing.Point(15, 89);
             this.CrossButton.Name = "CrossButton";
             this.CrossButton.Size = new System.Drawing.Size(75, 23);
             this.CrossButton.TabIndex = 3;
