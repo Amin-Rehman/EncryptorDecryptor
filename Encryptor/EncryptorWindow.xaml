@@ -59,6 +59,7 @@
                 VerticalAlignment="Top"
                 Width="109" 
                 Click="addFilesButton_Click"/>
+        <Button x:Name="encryptButton" Content="Encrypt" HorizontalAlignment="Left" Margin="838,276,0,0" VerticalAlignment="Top" Width="75" Click="encryptButton_Click"/>
 
     </Grid>
 </Window>

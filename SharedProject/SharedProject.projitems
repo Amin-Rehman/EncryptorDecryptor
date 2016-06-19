@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)GUIDGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JSONFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyNormalizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MD5Generator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XOR.cs" />
