@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SharedProject;
 using System.IO;
-
+using System.Windows.Forms;
 
 namespace Decryptor
 {
@@ -26,6 +26,44 @@ namespace Decryptor
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void decryptButton_Click(object sender, RoutedEventArgs e)
+        {
+            PasswordEntryForm popup = new PasswordEntryForm();
+            DialogResult dialogresult = popup.ShowDialog();
+
+            if (dialogresult == System.Windows.Forms.DialogResult.OK)
+            {
+                string enteredPassword = popup.password;
+                popup.Dispose();
+
+                bootStrapDecryption(enteredPassword);
+            }
+            else if (dialogresult == System.Windows.Forms.DialogResult.Cancel)
+            {
+                popup.Dispose();
+                return;
+            }
+        }
+
+        private async void bootStrapDecryption(string password)
+        {
+            string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
+            KeyObject keyObj = JSONFactory.readJSONFile(jsonFilePath);
+
+            string containerFileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
+            string md5 = await MD5Generator.GetMD5HashFromFile(containerFileName);
+
+            string key2 = KeyNormalizer.ToAscii(keyObj.key2);
+
+            string guid = XOR.XORStrings(key2, md5);
+
+            string key1 = KeyNormalizer.ToAscii(keyObj.key1);
+
+            string evaluatedPassword = XOR.XORStrings(key1, guid);
+
+
         }
     }
 }

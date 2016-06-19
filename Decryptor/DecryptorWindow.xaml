@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Button x:Name="decryptButton" Content="Decrypt" HorizontalAlignment="Left" Margin="202,134,0,0" VerticalAlignment="Top" Width="75" Click="decryptButton_Click"/>
+
     </Grid>
 </Window>
