@@ -49,21 +49,31 @@ namespace Decryptor
 
         private async void bootStrapDecryption(string password)
         {
-            string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
-            KeyObject keyObj = JSONFactory.readJSONFile(jsonFilePath);
+            try
+            {
+                string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
+                KeyObject keyObj = JSONFactory.readJSONFile(jsonFilePath);
+                string containerFileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
+                string md5 = await MD5Generator.GetMD5HashFromFile(containerFileName);
+                string key2 = KeyNormalizer.ToAscii(keyObj.key2);
+                string guid = XOR.XORStrings(key2, md5);
+                string key1 = KeyNormalizer.ToAscii(keyObj.key1);
 
-            string containerFileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
-            string md5 = await MD5Generator.GetMD5HashFromFile(containerFileName);
+                string evaluatedPassword = XOR.XORStrings(key1, guid);
 
-            string key2 = KeyNormalizer.ToAscii(keyObj.key2);
-
-            string guid = XOR.XORStrings(key2, md5);
-
-            string key1 = KeyNormalizer.ToAscii(keyObj.key1);
-
-            string evaluatedPassword = XOR.XORStrings(key1, guid);
-
-
+                if (evaluatedPassword == password)
+                {
+                    System.Windows.MessageBox.Show("Access granted!", "Decryptor", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Access denied!", "Decryptor", MessageBoxButton.OK, MessageBoxImage.Hand);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Error bootstrapping decryptor:"+e.Message,"Error");
+            }
         }
     }
 }

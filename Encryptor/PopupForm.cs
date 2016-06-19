@@ -18,6 +18,7 @@ namespace Encryptor
         {
             InitializeComponent();
             OKButton.Enabled = false;
+            this.AcceptButton = OKButton;
         }
 
         private void OKButton_Click(object sender, EventArgs e)

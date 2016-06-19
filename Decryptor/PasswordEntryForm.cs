@@ -18,6 +18,7 @@ namespace Decryptor
         {
             InitializeComponent();
             okButton.Enabled = false;
+            this.AcceptButton = okButton;
         }
 
         private void okButton_Click(object sender, EventArgs e)

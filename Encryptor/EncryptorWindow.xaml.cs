@@ -110,31 +110,39 @@ namespace Encryptor
 
         private async void bootStrapEncryption(string password)
         {
-            disableAllControls();
+            try
+            {
+                disableAllControls();
 
-            // Step 1: Generate Key1 (Password XOR GUID)
-            string guid = GUIDGenerator.getGuid();
+                // Step 1: Generate Key1 (Password XOR GUID)
+                string guid = GUIDGenerator.getGuid();
 
-            string keyOne = XOR.XORStrings(guid, password);
+                string keyOne = XOR.XORStrings(guid, password);
 
-            // Step 2: Generate Key2 (md5 XOR GUID)
-            string fileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
-            string md5 = await MD5Generator.GetMD5HashFromFile(fileName);
-            string keyTwo = XOR.XORStrings(md5, guid);
+                // Step 2: Generate Key2 (md5 XOR GUID)
+                string fileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
+                string md5 = await MD5Generator.GetMD5HashFromFile(fileName);
+                string keyTwo = XOR.XORStrings(md5, guid);
 
-            keyOne = KeyNormalizer.ToHex(keyOne);
-            keyTwo = KeyNormalizer.ToHex(keyTwo);
+                keyOne = KeyNormalizer.ToHex(keyOne);
+                keyTwo = KeyNormalizer.ToHex(keyTwo);
 
-            string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
+                string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
 
-            KeyObject keyObj = new KeyObject { key1 = keyOne, key2 = keyTwo };
+                KeyObject keyObj = new KeyObject { key1 = keyOne, key2 = keyTwo };
 
-            JSONFactory.writeJSONFile(jsonFilePath, keyObj);
+                JSONFactory.writeJSONFile(jsonFilePath, keyObj);
 
 
-            System.Windows.MessageBox.Show("Encryption complete!");
+                System.Windows.MessageBox.Show("Encryption complete!");
 
-            enableAllControls();
+                enableAllControls();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Error bootstraping encryption: ",e.Message);
+                enableAllControls();
+            }
 
         }
 
