@@ -140,7 +140,7 @@ namespace Encryptor
             }
             catch (Exception e)
             {
-                System.Windows.MessageBox.Show("Error bootstraping encryption: ",e.Message);
+                System.Windows.MessageBox.Show("Error bootstraping encryption: "+e.Message);
                 enableAllControls();
             }
 

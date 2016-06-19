@@ -56,8 +56,8 @@ Global
 		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|ARM.Build.0 = Release|Any CPU
 		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|x64.ActiveCfg = Release|Any CPU
 		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|x64.Build.0 = Release|Any CPU
-		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|x86.ActiveCfg = Release|Any CPU
-		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|x86.Build.0 = Release|Any CPU
+		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|x86.ActiveCfg = Release|x86
+		{FD28556E-EC04-44F8-A600-2310E92FF0F1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
