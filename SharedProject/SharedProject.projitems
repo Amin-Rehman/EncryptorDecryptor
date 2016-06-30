@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)KeyNormalizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MD5Generator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TrueCryptHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XOR.cs" />
   </ItemGroup>
 </Project>
