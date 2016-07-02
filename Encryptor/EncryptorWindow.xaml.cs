@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Forms;
 using SharedProject;
 using System.IO;
+using System.ComponentModel;
 
 namespace Encryptor
 {
@@ -25,10 +26,17 @@ namespace Encryptor
     /// </summary>
     public partial class MainWindow : Window
     {
+        private BackgroundWorker bwEncryptionWork = new BackgroundWorker();
+
+        private WaitForm waitForm;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            bwEncryptionWork.DoWork += new DoWorkEventHandler(bw_MountDoWork);
+            bwEncryptionWork.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerMountCompleted);
+
 
             filesInDirListView.SelectionMode = System.Windows.Controls.SelectionMode.Multiple;
         }
@@ -39,7 +47,6 @@ namespace Encryptor
             filesToBeBurnedListView.IsEnabled = false;
             addFilesButton.IsEnabled = false;
             openCaseFolderButton.IsEnabled = false;
-            encryptButton.IsEnabled = false;
         }
 
         private void enableAllControls()
@@ -48,7 +55,6 @@ namespace Encryptor
             filesToBeBurnedListView.IsEnabled = true;
             addFilesButton.IsEnabled = true;
             openCaseFolderButton.IsEnabled = true;
-            encryptButton.IsEnabled = true;
         }
 
         private void openCaseFolderButton_Click(object sender, RoutedEventArgs e)
@@ -87,32 +93,93 @@ namespace Encryptor
                     return;
                 }
             }
+
+            // Enable or disable the encrypt button
+            if (filesToBeBurnedListView.Items.Count > 0)
+                encryptButton.IsEnabled = true;
+            else
+                encryptButton.IsEnabled = false;
         }
 
         private void encryptButton_Click(object sender, RoutedEventArgs e)
         {
-            PopupForm popup = new PopupForm();
-            DialogResult dialogresult = popup.ShowDialog();
 
-            if (dialogresult == System.Windows.Forms.DialogResult.OK)
+            if (System.Windows.MessageBox.Show("Any open instances of Windows Explorer will have to close. Do you wish to continue?",
+                "Closing Windows Explorer",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                string enteredPassword = popup.password;
-                popup.Dispose();
-                bootStrapEncryption(enteredPassword);
+
+                PopupForm popup = new PopupForm();
+                DialogResult dialogresult = popup.ShowDialog();
+                string enteredPassword = "";
+
+                if (dialogresult == System.Windows.Forms.DialogResult.OK)
+                {
+                    enteredPassword = popup.password;
+                    popup.Dispose();
+                }
+                else if (dialogresult == System.Windows.Forms.DialogResult.Cancel)
+                {
+                    popup.Dispose();
+                    return;
+                }
+
+
+                waitForm = new WaitForm();
+
+                if (bwEncryptionWork.IsBusy != true)
+                {
+                    object[] parameters = new object[] { enteredPassword };
+                    bwEncryptionWork.RunWorkerAsync(parameters);
+                    disableAllControls();
+                    waitForm.ShowDialog();
+                }
+
             }
-            else if (dialogresult == System.Windows.Forms.DialogResult.Cancel)
+            else
             {
-                popup.Dispose();
                 return;
             }
 
         }
 
-        private async void bootStrapEncryption(string password)
+        // Background workers 
+
+        private void bw_MountDoWork(object sender, DoWorkEventArgs e)
+        {
+            object[] parameters = e.Argument as object[];
+            string password = parameters[0].ToString();
+
+            SharedProject.TrueCryptHelper.CloseAllExplorers();
+
+            string pathToContainer = Directory.GetCurrentDirectory() + "\\TCRYPT";
+            TrueCryptHelper.MountContainer("vb", pathToContainer);
+
+            string driveLetter = TrueCryptHelper.GetDriveLetterOfMountedDrive();
+            VBFile[] listItems = filesToBeBurnedListView.Items.OfType<VBFile>().ToArray();
+            // Copy files here
+            SharedProject.FileCopier.CopyFiles(listItems, driveLetter);
+
+
+            TrueCryptHelper.UnMountContainer();
+
+            bootStrapEncryption(password);
+
+
+        }
+
+        private void bw_RunWorkerMountCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            waitForm.Hide();
+            System.Windows.MessageBox.Show("Encryption complete!");
+            SharedProject.TrueCryptHelper.pathToTrueCryptContainer = "";
+            enableAllControls();
+        }
+
+        private void bootStrapEncryption(string password)
         {
             try
             {
-                disableAllControls();
 
                 // Step 1: Generate Key1 (Password XOR GUID)
                 string guid = GUIDGenerator.getGuid();
@@ -120,8 +187,8 @@ namespace Encryptor
                 string keyOne = XOR.XORStrings(guid, password);
 
                 // Step 2: Generate Key2 (md5 XOR GUID)
-                string fileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
-                string md5 = await MD5Generator.GetMD5HashFromFile(fileName);
+                string fileName = SharedProject.TrueCryptHelper.pathToTrueCryptContainer;
+                string md5 = MD5Generator.GetMD5HashFromFile(fileName);
                 string keyTwo = XOR.XORStrings(md5, guid);
 
                 keyOne = KeyNormalizer.ToHex(keyOne);
@@ -133,15 +200,10 @@ namespace Encryptor
 
                 JSONFactory.writeJSONFile(jsonFilePath, keyObj);
 
-
-                System.Windows.MessageBox.Show("Encryption complete!");
-
-                enableAllControls();
             }
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show("Error bootstraping encryption: "+e.Message);
-                enableAllControls();
             }
 
         }

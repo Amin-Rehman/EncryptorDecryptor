@@ -9,12 +9,14 @@
     <Import_RootNamespace>SharedProject</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FileCopier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GUIDGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JSONFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyNormalizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MD5Generator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TrueCryptHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VBFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XOR.cs" />
   </ItemGroup>
 </Project>

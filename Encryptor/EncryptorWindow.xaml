@@ -52,7 +52,7 @@
                 <GridView x:Name="toburngrdNames">
                     <GridViewColumn Header="Files"
                                     Width="478"
-                                    DisplayMemberBinding="{Binding fileName}"/>
+                                    DisplayMemberBinding="{Binding filePath}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -63,7 +63,7 @@
                 VerticalAlignment="Top"
                 Width="109" 
                 Click="addFilesButton_Click"/>
-        <Button x:Name="encryptButton" Content="Encrypt" HorizontalAlignment="Left" Margin="341,276,0,0" VerticalAlignment="Top" Width="75" Click="encryptButton_Click" Grid.Column="1"/>
+        <Button x:Name="encryptButton" Content="Encrypt" HorizontalAlignment="Left" Margin="341,276,0,0" VerticalAlignment="Top" Width="75" Click="encryptButton_Click" Grid.Column="1" IsEnabled="False"/>
 
     </Grid>
 </Window>

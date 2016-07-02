@@ -47,14 +47,14 @@ namespace Decryptor
             }
         }
 
-        private async void bootStrapDecryption(string password)
+        private void bootStrapDecryption(string password)
         {
             try
             {
                 string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
                 KeyObject keyObj = JSONFactory.readJSONFile(jsonFilePath);
                 string containerFileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
-                string md5 = await MD5Generator.GetMD5HashFromFile(containerFileName);
+                string md5 = MD5Generator.GetMD5HashFromFile(containerFileName);
                 string key2 = KeyNormalizer.ToAscii(keyObj.key2);
                 string guid = XOR.XORStrings(key2, md5);
                 string key1 = KeyNormalizer.ToAscii(keyObj.key1);

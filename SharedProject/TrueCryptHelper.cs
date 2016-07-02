@@ -25,7 +25,11 @@ namespace SharedProject
         [DllImport("Crypto.dll")]
         private static extern void unMountContainer();
 
+        public static string pathToTrueCryptContainer = "";
         static bool isContainerMountedCalled = false;
+
+
+        private static int mountedDrivePath = -1;
 
 
         /// <summary>
@@ -43,9 +47,40 @@ namespace SharedProject
             }
 
             mountContainer(driveNumber, password, password.Length, pathToContainer);
+
+
             isContainerMountedCalled = true;
+            pathToTrueCryptContainer = pathToContainer;
+            mountedDrivePath = driveNumber;
 
         }
+
+
+        public static bool CloseAllExplorers()
+        {
+
+            foreach (Process p in Process.GetProcessesByName("explorer"))
+            {
+                p.Kill();
+            }
+
+            // Wait here till all the explorer processes have ended
+            DateTime startTime = DateTime.Now;
+
+            while (true)
+            {
+                DateTime currentTime = DateTime.Now;
+                var timeDiff = currentTime.Subtract(startTime);
+
+                // Break the check if its been more than 5 seconds
+                if (timeDiff.Seconds > 5)
+                {
+                    break;
+                }
+            }
+            return true;
+        }
+
 
         /// <summary>
         /// Unmount the container if one is mounted.
@@ -56,32 +91,9 @@ namespace SharedProject
             {
                 // Display a message box asking users if they
                 // want to exit the application.
-                if (MessageBox.Show("Any open instances of Windows Explorer will have to close. Do you wish to continue?",
-                "Closing Windows Explorer",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    foreach (Process p in Process.GetProcessesByName("explorer"))
-                    {
-                        p.Kill();
-                    }
-
-                    // Wait here till all the explorer processes have ended
-                    DateTime startTime = DateTime.Now;
-
-                    while (true)
-                    {
-                        DateTime currentTime = DateTime.Now;
-                        var timeDiff = currentTime.Subtract(startTime);
-
-                        // Break the check if its been more than 5 seconds
-                        if (timeDiff.Seconds > 5)
-                        {
-                             break;
-                        }
-                    }
                     unMountContainer();
                     isContainerMountedCalled = false;
-                }
+                    mountedDrivePath = -1;
             }
         }
 
@@ -137,6 +149,19 @@ namespace SharedProject
             } while (trueCryptDriveLetter.Contains(driveToMount));
 
             return driveToMount;
+        }
+
+        public static string GetDriveLetterOfMountedDrive() {
+            // Ascii of A is 65. 
+            // Whatever the integer number is, increment it by 64 and we would get the drive path;
+            // However it seems there is an extra offset of 1 inside TrueCrypt driver
+            // So lets keep it 65 for the moment
+
+            const int asciiOffSet = 65;
+            int asciiDec = mountedDrivePath + asciiOffSet;
+            string driveLetter = Convert.ToChar(asciiDec).ToString();
+            driveLetter = driveLetter + ":\\";
+            return driveLetter;
         }
 
 

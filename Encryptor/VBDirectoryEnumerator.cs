@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using System.Collections.ObjectModel;
+using SharedProject;
 
 namespace Encryptor
 {
@@ -14,9 +15,9 @@ namespace Encryptor
         /// <summary>
         /// Enumerate directories in a certain file
         /// </summary>
-        public static ObservableCollection<VBFiles> GetFilesFromDirectory(string directory)
+        public static ObservableCollection<VBFile> GetFilesFromDirectory(string directory)
         {
-            ObservableCollection<VBFiles> filesCollection = new ObservableCollection<VBFiles>();
+            ObservableCollection<VBFile> filesCollection = new ObservableCollection<VBFile>();
 
             try
             {
@@ -24,7 +25,7 @@ namespace Encryptor
                 foreach (string currentFile in allFiles)
                 {
                     string fileName = currentFile.Substring(directory.Length + 1);
-                    filesCollection.Add( new VBFiles() { fileName = fileName, filePath = currentFile }) ;
+                    filesCollection.Add( new VBFile() { fileName = fileName, filePath = currentFile }) ;
                 }
             }
             catch (Exception e)
