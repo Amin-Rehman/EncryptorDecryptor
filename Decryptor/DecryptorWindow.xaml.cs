@@ -100,22 +100,30 @@ namespace Decryptor
                 string pathToContainer = Directory.GetCurrentDirectory() + "\\TCRYPT";
 
                 SharedProject.TrueCryptHelper.MountContainer("vb", pathToContainer);
+                e.Result = "Success";
             }
             else
             {
-                System.Windows.MessageBox.Show("Access denied!", "Decryptor", MessageBoxButton.OK, MessageBoxImage.Hand);
+                e.Result = "Failure";
             }
         }
 
         private void bw_RunWorkerMountCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             waitForm.Hide();
-            if (SharedProject.TrueCryptHelper.GetDriveLetterOfMountedDrive() !="")
-            {
-                string mountedDrive = SharedProject.TrueCryptHelper.GetDriveLetterOfMountedDrive();
-                Process.Start(mountedDrive);
-            }
 
+            if (e.Result.ToString() == "Success")
+            {
+                if (SharedProject.TrueCryptHelper.GetDriveLetterOfMountedDrive() != "")
+                {
+                    string mountedDrive = SharedProject.TrueCryptHelper.GetDriveLetterOfMountedDrive();
+                    Process.Start(mountedDrive);
+                }
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Access denied!", "Decryptor", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
         }
 
 
