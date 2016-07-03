@@ -20,12 +20,19 @@ namespace SharedProject
         {
             try
             {
-                    using (var md5 = MD5.Create())
-                    {
-                        var stream = File.OpenRead(fileName);
-                        return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
-                    }
+                string dataFromFile = "";
+                using (var md5 = MD5.Create())
+                {
+                    var stream = File.OpenRead(fileName);
+
+                    dataFromFile = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
+                    stream.Dispose();
+
+                }
+                return dataFromFile;
+
             }
+
             catch (Exception e)
             {
                 MessageBox.Show("Exception while writing JSON file: " + e.Message);

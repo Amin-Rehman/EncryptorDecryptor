@@ -89,11 +89,9 @@ namespace SharedProject
         {
             if (isContainerMountedCalled == true)
             {
-                // Display a message box asking users if they
-                // want to exit the application.
-                    unMountContainer();
-                    isContainerMountedCalled = false;
-                    mountedDrivePath = -1;
+                unMountContainer();
+                isContainerMountedCalled = false;
+                mountedDrivePath = -1;
             }
         }
 
