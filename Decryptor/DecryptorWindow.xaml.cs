@@ -85,7 +85,7 @@ namespace Decryptor
             string password = parameters[0].ToString();
             string jsonFilePath = Directory.GetCurrentDirectory() + "\\settings.json";
             KeyObject keyObj = JSONFactory.readJSONFile(jsonFilePath);
-            string containerFileName = Directory.GetCurrentDirectory() + "\\TCRYPT";
+            string containerFileName = FileUtility.getPathToContainer();
             string md5 = MD5Generator.GetMD5HashFromFile(containerFileName);
             string key2 = KeyNormalizer.ToAscii(keyObj.key2);
             string guid = XOR.XORStrings(key2, md5);
@@ -97,7 +97,7 @@ namespace Decryptor
             {
                 //System.Windows.MessageBox.Show("Access granted!", "Decryptor", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                string pathToContainer = Directory.GetCurrentDirectory() + "\\TCRYPT";
+                string pathToContainer = FileUtility.getPathToContainer();
 
                 SharedProject.TrueCryptHelper.MountContainer("vb", pathToContainer);
                 e.Result = "Success";

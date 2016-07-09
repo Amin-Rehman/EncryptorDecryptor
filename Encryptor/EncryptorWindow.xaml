@@ -15,7 +15,7 @@
 
         <ListView x:Name="filesInDirListView" 
                               HorizontalAlignment="Left" 
-                              Height="252" Margin="10,10,0,0" 
+                              Height="226" Margin="9,36,0,0" 
                               VerticalAlignment="Top" 
                               Width="478"
                               >
@@ -28,9 +28,9 @@
             </ListView.View>
         </ListView>
         <Button x:Name="openCaseFolderButton"
-                Content="Open Case Folder"
+                Content="Select Case Folder"
                 HorizontalAlignment="Left"
-                Margin="10,271,0,0" 
+                Margin="10,276,0,0" 
                 VerticalAlignment="Top"
                 Width="110"
                 Click="openCaseFolderButton_Click"/>
@@ -44,8 +44,8 @@
 
         <ListView x:Name="filesToBeBurnedListView" 
                   HorizontalAlignment="Left" 
-                  Height="208" 
-                  Margin="10,311,0,0"
+                  Height="189" 
+                  Margin="10,342,0,0"
                   VerticalAlignment="Top" 
                   Width="478">
             <ListView.View>
@@ -59,11 +59,16 @@
         <Button x:Name="addFilesButton" 
                 Content="Add Files"
                 HorizontalAlignment="Left"
-                Margin="143,271,0,0"
+                Margin="149,276,0,0"
                 VerticalAlignment="Top"
                 Width="109" 
                 Click="addFilesButton_Click"/>
-        <Button x:Name="encryptButton" Content="Encrypt" HorizontalAlignment="Left" Margin="341,276,0,0" VerticalAlignment="Top" Width="75" Click="encryptButton_Click" Grid.Column="1" IsEnabled="False"/>
+        <Button x:Name="encryptButton" Content="Encrypt" HorizontalAlignment="Left" Margin="341,299,0,0" VerticalAlignment="Top" Width="75" Click="encryptButton_Click" Grid.Column="1" IsEnabled="False"/>
+        <ComboBox x:Name="driveComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="95,299,0,0" VerticalAlignment="Top" Width="57" Height="20" IsEnabled="False"/>
+        <Button x:Name="RefreshDrives" Content="Refresh" Grid.Column="1" HorizontalAlignment="Left" Margin="30,299,0,0" VerticalAlignment="Top" Width="47" Height="20" Click="RefreshDrives_Click"/>
+        <Label x:Name="label" Content="Select USB Drive to Encrypt to: (Press Refresh to update)" Grid.Column="1" HorizontalAlignment="Left" Margin="30,267,0,0" VerticalAlignment="Top" Height="29" Width="386"/>
+        <Label x:Name="label1" Content="Files in the Case Folder:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="477"/>
+        <Label x:Name="label2" Content="Files to be written to the Encrypted Drive:" HorizontalAlignment="Left" Margin="9,301,0,0" VerticalAlignment="Top" Width="477"/>
 
     </Grid>
 </Window>

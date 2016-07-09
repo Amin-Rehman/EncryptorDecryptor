@@ -39,6 +39,7 @@ namespace Encryptor
 
 
             filesInDirListView.SelectionMode = System.Windows.Controls.SelectionMode.Multiple;
+            evaluateRemovableDrives();
         }
 
         private void disableAllControls()
@@ -103,6 +104,17 @@ namespace Encryptor
 
         private void encryptButton_Click(object sender, RoutedEventArgs e)
         {
+            if (driveComboBox.SelectedItem == null)
+            {
+                System.Windows.MessageBox.Show(" No drive detected / inserted. Please select a drive to encrypt to before continuing. ","Error");
+                return;
+            }
+
+            if ( !FileUtility.isContainerSizeEnough(filesToBeBurnedListView.Items.OfType<VBFile>().ToArray()))
+            {
+                System.Windows.MessageBox.Show("Encryped folder is not big enough.", "Error");
+                return;
+            }
 
             if (System.Windows.MessageBox.Show("Any open instances of Windows Explorer will have to close. Do you wish to continue?",
                 "Closing Windows Explorer",
@@ -129,7 +141,9 @@ namespace Encryptor
 
                 if (bwEncryptionWork.IsBusy != true)
                 {
-                    object[] parameters = new object[] { enteredPassword };
+                    // Copy files to the drive
+                    var selectedDestDrive = driveComboBox.Text;
+                    object[] parameters = new object[] { enteredPassword , selectedDestDrive};
                     bwEncryptionWork.RunWorkerAsync(parameters);
                     disableAllControls();
                     waitForm.ShowDialog();
@@ -149,13 +163,17 @@ namespace Encryptor
         {
             object[] parameters = e.Argument as object[];
             string password = parameters[0].ToString();
+            string destinationDrive = parameters[1].ToString();
 
             SharedProject.TrueCryptHelper.CloseAllExplorers();
 
-            string pathToContainer = Directory.GetCurrentDirectory() + "\\TCRYPT";
+            string pathToContainer = FileUtility.getPathToContainer();
             TrueCryptHelper.MountContainer("vb", pathToContainer);
 
+
             string driveLetter = TrueCryptHelper.GetDriveLetterOfMountedDrive();
+            FileUtility.deleteAllFilesFromFolder(driveLetter);
+
             VBFile[] listItems = filesToBeBurnedListView.Items.OfType<VBFile>().ToArray();
             // Copy files here
             SharedProject.FileCopier.CopyFiles(listItems, driveLetter);
@@ -165,6 +183,7 @@ namespace Encryptor
 
             bootStrapEncryption(password);
 
+            copyDataToDestinationDrive(destinationDrive);
 
         }
 
@@ -173,6 +192,7 @@ namespace Encryptor
             waitForm.Hide();
             System.Windows.MessageBox.Show("Encryption complete!");
             SharedProject.TrueCryptHelper.pathToTrueCryptContainer = "";
+
             enableAllControls();
         }
 
@@ -208,6 +228,77 @@ namespace Encryptor
 
         }
 
+        private void copyDataToDestinationDrive(string selectedDestDrive)
+        {
+
+            if (!Directory.Exists(selectedDestDrive))
+            {
+                System.Windows.MessageBox.Show("Drive " + selectedDestDrive + " not found or inaccessible",
+                                "Error", MessageBoxButton.OK);
+                return;
+            }
+
+            List<VBFile> listOfFilesToBeCopied = new List<VBFile>();
+            string fileToBeCopied;
+
+
+            fileToBeCopied = FileUtility.nameOfContainer();
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() +"\\"+ fileToBeCopied });
+
+            fileToBeCopied = "Crypto.dll";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            fileToBeCopied = "Decryptor.exe";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            fileToBeCopied = "Newtonsoft.Json.dll";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            fileToBeCopied = "Decryptor.exe";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            fileToBeCopied = "settings.json";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            fileToBeCopied = "truecrypt-x64.sys";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            fileToBeCopied = "truecrypt.sys";
+            listOfFilesToBeCopied.Add(new VBFile() { fileName = fileToBeCopied, filePath = Directory.GetCurrentDirectory() + "\\" + fileToBeCopied });
+
+            SharedProject.FileCopier.CopyFiles(listOfFilesToBeCopied.ToArray(), selectedDestDrive);
+
+        }
+
+        private void RefreshDrives_Click(object sender, RoutedEventArgs e)
+        {
+            evaluateRemovableDrives();
+        }
+
+        public void evaluateRemovableDrives()
+        {
+            driveComboBox.Items.Clear();
+            var drives = DriveInfo.GetDrives();
+            foreach (var drive in drives)
+            {
+                if (drive.DriveType == DriveType.Removable)
+                {
+                    Console.WriteLine(drive.Name);
+                    driveComboBox.Items.Add(drive.RootDirectory);
+                }
+            }
+
+            if (driveComboBox.HasItems)
+            {
+                driveComboBox.SelectedIndex = 0;
+                driveComboBox.IsEnabled = true;
+            }
+            else
+            {
+                driveComboBox.IsEnabled = false;
+            }
+
+        }
     }
 
 }

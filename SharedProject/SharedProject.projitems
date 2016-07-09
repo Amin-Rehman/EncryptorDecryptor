@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)FileCopier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GUIDGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JSONFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyNormalizer.cs" />
