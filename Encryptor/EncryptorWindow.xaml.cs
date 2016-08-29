@@ -37,14 +37,17 @@ namespace Encryptor
 
         // List of all drives
         private const string ClientName = "BurnMedia";
-        private MsftDiscRecorder2 selectedDestinationDrive;
+
+        private List<MsftDiscRecorder2> listOfDrives;
+
         private BurnData _burnData = new BurnData();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            selectedDestinationDrive = new MsftDiscRecorder2();
+
+            listOfDrives = new List<MsftDiscRecorder2>();
 
             // Background worer to start bootstrapping
             bwEncryptionWork.DoWork += new DoWorkEventHandler(bw_MountDoWork);
@@ -58,7 +61,7 @@ namespace Encryptor
             backgroundBurnWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundBurnWorker_RunWorkerCompleted);
 
             filesInDirListView.SelectionMode = System.Windows.Controls.SelectionMode.Multiple;
-            evaluateRemovableDrives();
+            evaluateWritableDrives();
         }
 
         private void disableAllControls()
@@ -197,7 +200,6 @@ namespace Encryptor
             // Copy files here
             SharedProject.FileCopier.CopyFiles(listItems, driveLetter);
 
-
             TrueCryptHelper.UnMountContainer();
 
             bootStrapEncryption(password);
@@ -208,13 +210,12 @@ namespace Encryptor
         private void bw_RunWorkerMountCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             waitForm.Hide();
-            // Start the second background task here?
 
-            // TODO: Fix this. Getting the first item for now.
-            var discRecorder = (IDiscRecorder2)selectedDestinationDrive;
-            _burnData.uniqueRecorderId = discRecorder.ActiveDiscRecorder;
+            System.Windows.MessageBox.Show("Encryption complete!");
+            SharedProject.TrueCryptHelper.pathToTrueCryptContainer = "";
+            enableAllControls();
 
-            backgroundBurnWorker.RunWorkerAsync(_burnData);
+            burnToDiscButton.IsEnabled = true;
 
 
         }
@@ -384,7 +385,7 @@ namespace Encryptor
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_COMPLETED:
-                        labelStatusText.Content = "Completed!";
+                        labelStatusText.Content = "Ready";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_VERIFYING:
@@ -397,9 +398,10 @@ namespace Encryptor
 
         private void backgroundBurnWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            System.Windows.MessageBox.Show("Encryption complete!");
-            SharedProject.TrueCryptHelper.pathToTrueCryptContainer = "";
+            burnToDiscButton.IsEnabled = false;
+            encryptButton.IsEnabled = true;
             enableAllControls();
+            System.Windows.MessageBox.Show("Disc Burning complete!");
         }
 
         #endregion
@@ -457,7 +459,12 @@ namespace Encryptor
                 fileSystemImage.ChooseImageDefaults(discRecorder);
                 fileSystemImage.FileSystemsToCreate =
                     FsiFileSystems.FsiFileSystemJoliet | FsiFileSystems.FsiFileSystemISO9660;
-                fileSystemImage.VolumeName = "Hardcoded DVD Label";
+
+                DateTime dt = DateTime.Now;
+                String timeString = String.Format("{0:d_M_yyyy_HH_mm}", dt);
+
+
+                fileSystemImage.VolumeName = timeString;
 
                 fileSystemImage.Update += fileSystemImage_Update;
 
@@ -625,12 +632,13 @@ namespace Encryptor
 
         private void RefreshDrives_Click(object sender, RoutedEventArgs e)
         {
-            evaluateRemovableDrives();
+            evaluateWritableDrives();
         }
 
-        public void evaluateRemovableDrives()
+        public void evaluateWritableDrives()
         {
             driveComboBox.Items.Clear();
+            listOfDrives.Clear();
 
             var discMaster = new MsftDiscMaster2();
 
@@ -640,9 +648,6 @@ namespace Encryptor
             {
                 var discRecorder2 = new MsftDiscRecorder2();
                 discRecorder2.InitializeDiscRecorder(uniqueRecorderId);
-
-                selectedDestinationDrive = discRecorder2;
-
 
                 string devicePaths = string.Empty;
                 string volumePath = (string)discRecorder2.VolumePathNames.GetValue(0);
@@ -656,6 +661,7 @@ namespace Encryptor
                 }
 
                 driveComboBox.Items.Add(string.Format("{0}", devicePaths));
+                listOfDrives.Add(discRecorder2);
 
             }
 
@@ -669,6 +675,25 @@ namespace Encryptor
             {
                 driveComboBox.IsEnabled = false;
             }
+
+        }
+
+        private void driveComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void burnToDisc_button_Click(object sender, RoutedEventArgs e)
+        {
+            encryptButton.IsEnabled = false;
+            burnToDiscButton.IsEnabled = false;
+            disableAllControls();
+
+            var selectedDrive = driveComboBox.SelectedIndex;
+            var discRecorder = (IDiscRecorder2) listOfDrives.ElementAt<MsftDiscRecorder2>(selectedDrive);
+
+            _burnData.uniqueRecorderId = discRecorder.ActiveDiscRecorder;
+            backgroundBurnWorker.RunWorkerAsync(_burnData);
 
         }
     }
