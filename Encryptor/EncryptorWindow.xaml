@@ -66,9 +66,10 @@
         <Button x:Name="encryptButton" Content="Encrypt" HorizontalAlignment="Left" Margin="341,299,0,0" VerticalAlignment="Top" Width="75" Click="encryptButton_Click" Grid.Column="1" IsEnabled="False"/>
         <ComboBox x:Name="driveComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="95,299,0,0" VerticalAlignment="Top" Width="57" Height="20" IsEnabled="False"/>
         <Button x:Name="RefreshDrives" Content="Refresh" Grid.Column="1" HorizontalAlignment="Left" Margin="30,299,0,0" VerticalAlignment="Top" Width="47" Height="20" Click="RefreshDrives_Click"/>
-        <Label x:Name="label" Content="Select USB Drive to Encrypt to: (Press Refresh to update)" Grid.Column="1" HorizontalAlignment="Left" Margin="30,267,0,0" VerticalAlignment="Top" Height="29" Width="386"/>
+        <Label x:Name="label" Content="Select DVD Drive to Encrypt to: (Press Refresh to update)" Grid.Column="1" HorizontalAlignment="Left" Margin="30,267,0,0" VerticalAlignment="Top" Height="29" Width="386"/>
         <Label x:Name="label1" Content="Files in the Case Folder:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="477"/>
         <Label x:Name="label2" Content="Files to be written to the Encrypted Drive:" HorizontalAlignment="Left" Margin="9,301,0,0" VerticalAlignment="Top" Width="477"/>
+        <Label x:Name="labelStatusText" Content="Ready" Grid.Column="1" HorizontalAlignment="Left" Margin="10.2,513,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
