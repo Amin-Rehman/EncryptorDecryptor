@@ -17,6 +17,8 @@ using System.Windows.Forms;
 using SharedProject;
 using System.IO;
 using System.ComponentModel;
+using IMAPI2.Interop;
+using IMAPI2.MediaItem;
 
 namespace Encryptor
 {
@@ -30,9 +32,14 @@ namespace Encryptor
 
         private WaitForm waitForm;
 
+        // List of all drives
+        List<MsftDiscRecorder2> listDrives;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            listDrives = new List<MsftDiscRecorder2>();
 
             bwEncryptionWork.DoWork += new DoWorkEventHandler(bw_MountDoWork);
             bwEncryptionWork.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerMountCompleted);
@@ -278,15 +285,35 @@ namespace Encryptor
         public void evaluateRemovableDrives()
         {
             driveComboBox.Items.Clear();
-            var drives = DriveInfo.GetDrives();
-            foreach (var drive in drives)
+            listDrives.Clear();
+
+            var discMaster = new MsftDiscMaster2();
+
+            if (!discMaster.IsSupportedEnvironment)
+                return;
+            foreach (string uniqueRecorderId in discMaster)
             {
-                if (drive.DriveType == DriveType.Removable)
+                var discRecorder2 = new MsftDiscRecorder2();
+                discRecorder2.InitializeDiscRecorder(uniqueRecorderId);
+
+                listDrives.Add(discRecorder2);
+
+
+                string devicePaths = string.Empty;
+                string volumePath = (string)discRecorder2.VolumePathNames.GetValue(0);
+                foreach (string volPath in discRecorder2.VolumePathNames)
                 {
-                    Console.WriteLine(drive.Name);
-                    driveComboBox.Items.Add(drive.RootDirectory);
+                    if (!string.IsNullOrEmpty(devicePaths))
+                    {
+                        devicePaths += ",";
+                    }
+                    devicePaths += volumePath;
                 }
+
+                driveComboBox.Items.Add(string.Format("{0}", devicePaths));
+
             }
+
 
             if (driveComboBox.HasItems)
             {

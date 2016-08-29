@@ -95,6 +95,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interop\BurnData.cs" />
+    <Compile Include="Interop\Imapi2Interop.cs" />
+    <Compile Include="MediaItem\DirectoryItem.cs" />
+    <Compile Include="MediaItem\FileItem.cs" />
+    <Compile Include="MediaItem\IMediaItem.cs" />
+    <Compile Include="MediaItem\Win32.cs" />
     <Compile Include="WaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
