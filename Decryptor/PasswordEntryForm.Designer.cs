@@ -36,28 +36,31 @@
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(12, 40);
+            this.passwordTextBox.Location = new System.Drawing.Point(16, 49);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
-            this.passwordTextBox.Size = new System.Drawing.Size(405, 20);
+            this.passwordTextBox.Size = new System.Drawing.Size(539, 22);
             this.passwordTextBox.TabIndex = 0;
             this.passwordTextBox.TextChanged += new System.EventHandler(this.passwordTextBox_TextChanged);
             // 
             // enterPasswordLabel
             // 
             this.enterPasswordLabel.AutoSize = true;
-            this.enterPasswordLabel.Location = new System.Drawing.Point(13, 13);
+            this.enterPasswordLabel.Location = new System.Drawing.Point(17, 16);
+            this.enterPasswordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.enterPasswordLabel.Name = "enterPasswordLabel";
-            this.enterPasswordLabel.Size = new System.Drawing.Size(114, 13);
+            this.enterPasswordLabel.Size = new System.Drawing.Size(146, 16);
             this.enterPasswordLabel.TabIndex = 1;
             this.enterPasswordLabel.Text = "Please enter password";
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(12, 83);
+            this.cancelButton.Location = new System.Drawing.Point(16, 102);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.Size = new System.Drawing.Size(100, 28);
             this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -66,9 +69,10 @@
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(333, 83);
+            this.okButton.Location = new System.Drawing.Point(444, 102);
+            this.okButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.Size = new System.Drawing.Size(100, 28);
             this.okButton.TabIndex = 3;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
@@ -76,15 +80,16 @@
             // 
             // PasswordEntryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 118);
+            this.ClientSize = new System.Drawing.Size(577, 165);
             this.ControlBox = false;
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.enterPasswordLabel);
             this.Controls.Add(this.passwordTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "PasswordEntryForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
