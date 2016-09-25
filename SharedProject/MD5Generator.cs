@@ -12,6 +12,19 @@ namespace SharedProject
 {
     class MD5Generator
     {
+        const int FILE_SIZE_TO_READ = 1000000;
+
+        private static string BytesToStringConverted(byte[] bytes)
+        {
+            using (var stream = new MemoryStream(bytes))
+            {
+                using (var streamReader = new StreamReader(stream))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
+        }
+
         /// <summary>
         /// Helper method to Generate MD5 of a file. This ideally needs to be called in a background worker thread
         /// 
@@ -23,10 +36,13 @@ namespace SharedProject
                 string dataFromFile = "";
                 using (var md5 = MD5.Create())
                 {
-                    var stream = File.OpenRead(fileName);
+                    FileStream fsSource = new FileStream(fileName,FileMode.Open, FileAccess.Read);
 
-                    dataFromFile = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
-                    stream.Dispose();
+                    byte[] bytes = new byte[FILE_SIZE_TO_READ];
+                    int n = fsSource.Read(bytes, 0, FILE_SIZE_TO_READ);
+                    string data = BytesToStringConverted(bytes);
+
+                    dataFromFile = data.Replace("-", string.Empty);
 
                 }
                 return dataFromFile;
